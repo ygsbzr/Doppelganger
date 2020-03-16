@@ -31,10 +31,11 @@ namespace Doppelgänger
         private PlayMakerFSM _sc;
         private GameObject _spells;
         
+        private bool _canShadowDash = true;
         private Color _furyColor = new Color32(255, 50, 113, 255); 
         private int _furyThreshold;
         private bool _furyActivated;
-        private bool _canShadowDash = true;
+        private int _maxHealth;
 
         private void Awake()
         {
@@ -53,7 +54,8 @@ namespace Doppelgänger
             
             _musicObj = new GameObject("Doppelganger Music");
             
-            _hm.hp = 2000 + (_pd.maxHealth + _pd.healthBlue) * 200;
+            _maxHealth = 2000 + (_pd.maxHealth + _pd.healthBlue) * 200;
+            _hm.hp = _maxHealth;
             
             #if DEBUG
             //_hm.hp = 1000;
@@ -77,6 +79,7 @@ namespace Doppelgänger
             _moves = new List<Action>
             {
                 DoppelgangerDash,
+                DoppelgangerFocus,
                 DoppelgangerJump,
                 DoppelgangerSlash,
                 DoppelgangerNailArt,
@@ -85,6 +88,7 @@ namespace Doppelgänger
             _repeats = new Dictionary<Action, int>
             {
                 [DoppelgangerDash] = 0,
+                [DoppelgangerFocus] = 0,
                 [DoppelgangerJump] = 0,
                 [DoppelgangerSlash] = 0,
                 [DoppelgangerNailArt] = 0,
@@ -94,10 +98,11 @@ namespace Doppelgänger
             _maxRepeats = new Dictionary<Action, int>
             {
                 [DoppelgangerDash] = 1,
-                [DoppelgangerJump] = 99,
-                [DoppelgangerSlash] = 99,
-                [DoppelgangerNailArt] = 99,
-                [DoppelgangerSpell] = 99,
+                [DoppelgangerFocus] = 3,
+                [DoppelgangerJump] = 3,
+                [DoppelgangerSlash] = 3,
+                [DoppelgangerNailArt] = 3,
+                [DoppelgangerSpell] = 1,
             };
 
             if (_pd.equippedCharm_40 && _pd.grimmChildLevel < 5)
@@ -201,6 +206,11 @@ namespace Doppelgänger
                 GameObject weaverling = Instantiate(weaverlingObj, transform);
                 weaverling.SetActive(true);
                 weaverling.PrintSceneHierarchyTree();
+            }
+            
+            foreach (var animation in _hero.GetComponent<tk2dSpriteAnimator>().Library.clips)
+            {
+                Log("Animation Name: " + animation.name);
             }
 
             StartCoroutine(DoppelgangerIntro());
@@ -380,7 +390,11 @@ namespace Doppelgänger
 
             // Run if Knight is out of range
             float runThreshold = _pd.equippedCharm_35 ? 10.0f : 5.0f;
-            if (Mathf.Abs(heroPos.x - pos.x) > runThreshold && _nextMove != DoppelgangerJump && _nextMove != DoppelgangerSpell && _nextMove != DoppelgangerDash)
+            if (Mathf.Abs(heroPos.x - pos.x) > runThreshold && 
+                _nextMove != DoppelgangerJump && 
+                _nextMove != DoppelgangerSpell && 
+                _nextMove != DoppelgangerDash && 
+                _nextMove != DoppelgangerFocus)
             {
                 _nextMove = DoppelgangerRun;
             }
@@ -419,8 +433,9 @@ namespace Doppelgänger
                     }
                 }
             }
-
-            //Log("Next Move: " + _nextMove.Method.Name);
+            
+            
+            Log("Next Move: " + _nextMove.Method.Name);
             _nextMove.Invoke();
         }
 

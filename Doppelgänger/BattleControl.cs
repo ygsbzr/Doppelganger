@@ -24,6 +24,7 @@ namespace Doppelgänger
                 typeof(DamageHero),
                 typeof(EnemyDreamnailReaction),
                 typeof(EnemyHitEffectsUninfected),
+                typeof(ExtraDamageable),
                 typeof(HealthManager),
                 typeof(MeshFilter),
                 typeof(MeshRenderer),

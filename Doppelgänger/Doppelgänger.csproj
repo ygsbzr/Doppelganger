@@ -65,10 +65,12 @@
   <ItemGroup>
     <Compile Include="ArenaFinder.cs" />
     <Compile Include="AudioController.cs" />
+    <Compile Include="BaldurShell.cs" />
     <Compile Include="BattleControl.cs" />
     <Compile Include="Doppelganger.cs" />
     <Compile Include="DoppelgangerDash.cs" />
     <Compile Include="DoppelgangerDeath.cs" />
+    <Compile Include="DoppelgangerFocus.cs" />
     <Compile Include="DoppelgangerIntro.cs" />
     <Compile Include="DoppelgangerJump.cs" />
     <Compile Include="DoppelgangerNailArts.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="SaveSettings.cs" />
     <Compile Include="SpellFlukeDoppelganger.cs" />
     <Compile Include="TinkSound.cs" />
+    <Compile Include="Tk2DSpriteAnimatorExtensions.cs" />
     <Compile Include="WavUtility.cs" />
   </ItemGroup>
   <ItemGroup>

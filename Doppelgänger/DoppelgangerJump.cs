@@ -21,7 +21,7 @@ namespace Doppelgänger
             {
                 _ac.PlaySound(HeroSounds.JUMP);
                 _anim.Play("Airborne");
-                float value = Random.Range(10, 20);
+                float value = Random.Range(20, 25);
                 _rb.velocity = new Vector2(value / 2 * -transform.localScale.x, value);
 
                 Instantiate(_hc.jumpEffectPrefab, transform);
@@ -95,7 +95,7 @@ namespace Doppelgänger
                 float posX = transform.position.x;
                 float diff = heroX - posX;
                 if (diff > 0 && transform.localScale.x == 1 || diff < 0 && transform.localScale.x == -1) Flip();
-                float value = Random.Range(10, 20);
+                float value = Random.Range(20, 25);
                 _rb.velocity = new Vector2(value / 2 * -transform.localScale.x, value);
                 
                 Instantiate(_hc.dJumpWingsPrefab, transform).SetActive(true);
