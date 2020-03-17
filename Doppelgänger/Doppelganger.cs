@@ -207,11 +207,6 @@ namespace Doppelgänger
                 weaverling.SetActive(true);
                 weaverling.PrintSceneHierarchyTree();
             }
-            
-            foreach (var animation in _hero.GetComponent<tk2dSpriteAnimator>().Library.clips)
-            {
-                Log("Animation Name: " + animation.name);
-            }
 
             StartCoroutine(DoppelgangerIntro());
         }
@@ -355,8 +350,10 @@ namespace Doppelgänger
             int index = Random.Range(0, _moves.Count);
             _nextMove = _moves[index];
             
-            // Make sure moves don't occur more than its respective max number of repeats in a row
-            while (_repeats[_nextMove] >= _maxRepeats[_nextMove] || _nextMove == DoppelgangerDash && !_canShadowDash)
+            // Re-select move based on specified conditions
+            while (_repeats[_nextMove] >= _maxRepeats[_nextMove] ||
+                   _nextMove == DoppelgangerDash && !_canShadowDash || 
+                   _nextMove == DoppelgangerFocus && _hm.hp >= _maxHealth)
             {
                 index = Random.Range(0, _moves.Count);
                 _nextMove = _moves[index];
@@ -364,29 +361,6 @@ namespace Doppelgänger
 
             Vector2 pos = transform.position;
             Vector2 heroPos = HeroController.instance.transform.position;
-            float evadeRange = 4.0f;
-            if (Mathf.Sqrt(Mathf.Pow(pos.x - heroPos.x, 2) + Mathf.Pow(pos.y - heroPos.y, 2)) < evadeRange)
-            {
-                int randNum = Random.Range(0, 10);
-                int threshold = 7;
-                if (randNum < threshold)
-                {
-                    /*if (_direction == 1 && pos.x - LeftX > 4.0f || (_direction == -1 && RightX - pos.x > 4.0f))
-                    {
-                        if (_previousMove != DryyaWalk) _nextMove = DryyaEvade;
-                    }*/
-                }
-            }
-            else if (Mathf.Abs(pos.x -
-             heroPos.x) <= 2.0f && heroPos.y - pos.y > 2.0f)
-            {
-                int randNum = Random.Range(0, 10);
-                int threshold = 5;
-                if (randNum < threshold)
-                {
-                    // Pogo Punishment
-                }
-            }
 
             // Run if Knight is out of range
             float runThreshold = _pd.equippedCharm_35 ? 10.0f : 5.0f;

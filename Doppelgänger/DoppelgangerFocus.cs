@@ -10,10 +10,10 @@ namespace Doppelgänger
     {
         private void DoppelgangerFocus()
         {
+            GameObject baldurShell = null;
             GameObject dustL;
             GameObject dustR;
             GameObject linesAnim;
-            GameObject shellAnim = null;
             GameObject focusEffects = _hero.FindGameObjectInChildren("Focus Effects");
             PlayMakerFSM spellControl = _hero.LocateMyFSM("Spell Control");
             
@@ -37,9 +37,9 @@ namespace Doppelgänger
                     
                 _rb.velocity = Vector2.right * -transform.localScale.x * crawlSpeed;
 
-                tk2dSpriteAnimationClip animClip = _anim.GetClipByName(_pd.equippedCharm_28 ? "Slug Down" : "Focus End");
+                tk2dSpriteAnimationClip animClip = _anim.GetClipByName("Focus End");
                 float waitTime = animClip.frames.Length * (1.0f / animClip.fps);
-                
+
                 yield return new WaitForSeconds(waitTime);
 
                 StartCoroutine(Focus());
@@ -85,12 +85,12 @@ namespace Doppelgänger
                 if (_pd.equippedCharm_5)
                 {
                     GameObject baldurObj = _hero.transform.Find("Charm Effects").Find("Blocker Shield").gameObject;
-                    GameObject baldurShell = Instantiate(baldurObj, transform);
+                    baldurShell = Instantiate(baldurObj, transform);
                     baldurShell.SetActive(true);
                     baldurShell.layer = 11;
                     baldurShell.AddComponent<BaldurShell>();
-                    shellAnim = baldurShell.FindGameObjectInChildren("Shell Anim");
-                    baldurShell.PrintSceneHierarchyTree();
+                    baldurShell.SendMessage("BaldurClose");
+                    _hm.IsInvincible = true;
                 }
                 
                 float healTime = 0.85f;
@@ -145,7 +145,7 @@ namespace Doppelgänger
                 chargeAudio.SetActive(true);
                 chargeAudio.GetComponent<AudioSource>().Play();
 
-                _hm.hp += _pd.equippedCharm_34 ? 200 : 100;
+                _hm.hp += _pd.equippedCharm_34 ? 100 : 50;
                 if (_hm.hp > _maxHealth) _hm.hp = _maxHealth;
                 yield return new WaitForSeconds(_anim.PlayAnimGetTime(burstAnimation));
 
@@ -154,17 +154,39 @@ namespace Doppelgänger
 
             IEnumerator FocusEnd()
             {
-
-                if (shellAnim != null)
-                    shellAnim.GetComponent<tk2dSpriteAnimator>().Play("Disappear");
+                if (_pd.equippedCharm_5)
+                {
+                    baldurShell.SendMessage("BaldurOpen");
+                    _hm.IsInvincible = false;
+                }
                 _anim.Play(_pd.equippedCharm_28 ? "Slug Up" : "Focus End");
 
                 yield return new WaitForSeconds(_anim.PlayAnimGetTime(_pd.equippedCharm_28 ? "Slug Up" : "Focus End"));
 
+                if (_pd.equippedCharm_5) Destroy(baldurShell);
+                
                 StartCoroutine(IdleAndChooseNextAttack());
             }
             
             StartCoroutine(StartFocus());
+        }
+
+        private void BaldurShellBreak()
+        {
+            StopAllCoroutines();
+            
+            IEnumerator Break()
+            {
+                _anim.Play("Recoil");
+                _hm.IsInvincible = false;
+                _rb.velocity = Vector2.zero;
+
+                yield return new WaitForSeconds(_anim.PlayAnimGetTime("Recoil"));
+                
+                StartCoroutine(IdleAndChooseNextAttack());
+            }
+
+            StartCoroutine(Break());
         }
     }
 }
