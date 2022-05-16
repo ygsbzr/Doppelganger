@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Doppelgänger
 {
-    public class SaveSettings : IModSettings//, ISerializationCallbackReceiver
+    public class SaveSettings//, ISerializationCallbackReceiver
     {
         
     }

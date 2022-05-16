@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using GlobalEnums;
 using HutongGames.PlayMaker.Actions;
-using ModCommon;
-using ModCommon.Util;
 using UnityEngine;
-
+using Satchel;
 namespace Doppelgänger
 {
     internal partial class Doppelganger : MonoBehaviour

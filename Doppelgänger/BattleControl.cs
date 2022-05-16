@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
-using ModCommon;
-using ModCommon.Util;
+using Satchel;
 using UnityEngine;
 
 namespace Doppelgänger
@@ -111,7 +110,6 @@ namespace Doppelgänger
 
             doppelganger.transform.SetPosition2D(107.4f, 6.4f);
 
-            doppelganger.PrintSceneHierarchyTree();
             
             Log("Finished Creating Doppelganger");
         }

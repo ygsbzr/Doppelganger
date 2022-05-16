@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using HutongGames.PlayMaker.Actions;
-using ModCommon;
-using ModCommon.Util;
+using Satchel;
 using UnityEngine;
 
 namespace Doppelgänger

@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HutongGames.PlayMaker.Actions;
-using ModCommon;
-using ModCommon.Util;
+using Satchel;
 using UnityEngine;
 using Bounds = UnityEngine.Bounds;
 using Random = UnityEngine.Random;
-
+using Modding;
 namespace Doppelgänger
 {
     internal partial class Doppelganger : MonoBehaviour
@@ -47,7 +46,7 @@ namespace Doppelgänger
             _rb = GetComponent<Rigidbody2D>();
             
             _hc = HeroController.instance;
-            _ac = _hc.GetAttr<HeroController, HeroAudioController>("audioCtrl");
+            _ac = ReflectionHelper.GetField<HeroController, HeroAudioController>(_hc, "audioCtrl");
             _hero = _hc.gameObject;
             _sc = _hc.spellControl;
             _pd = PlayerData.instance;
@@ -205,7 +204,6 @@ namespace Doppelgänger
                 var weaverlingObj = GameObject.Find("Weaverling(Clone)");
                 GameObject weaverling = Instantiate(weaverlingObj, transform);
                 weaverling.SetActive(true);
-                weaverling.PrintSceneHierarchyTree();
             }
 
             StartCoroutine(DoppelgangerIntro());

@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Reflection;
 using HutongGames.PlayMaker.Actions;
-using ModCommon;
-using ModCommon.Util;
 using UnityEngine;
 using AddComponent = IL.HutongGames.PlayMaker.Actions.AddComponent;
-
+using Satchel;
 namespace Doppelgänger
 {
     public class Grimmchild : MonoBehaviour

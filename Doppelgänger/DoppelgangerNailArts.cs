@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using GlobalEnums;
-using ModCommon;
 using UnityEngine;
-
+using Satchel;
 namespace Doppelgänger
 {
     internal partial class Doppelganger : MonoBehaviour

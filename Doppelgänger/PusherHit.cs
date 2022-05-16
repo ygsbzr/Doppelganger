@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using ModCommon;
 using UnityEngine;
 
 namespace Doppelgänger
@@ -22,7 +21,6 @@ namespace Doppelgänger
             GameObject pusher = go.transform.parent.gameObject;
             _baldurShell = pusher.transform.parent.gameObject;
             
-            _baldurShell.PrintSceneHierarchyTree();
         }
         
         private void OnTriggerEnter2D(Collider2D collider)

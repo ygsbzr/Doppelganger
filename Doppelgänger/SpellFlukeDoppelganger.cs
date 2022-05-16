@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using GlobalEnums;
-using ModCommon;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using Satchel;
 namespace Doppelgänger
 {
     public class SpellFlukeDoppelganger : MonoBehaviour

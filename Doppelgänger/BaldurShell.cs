@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using HutongGames.PlayMaker.Actions;
-using ModCommon;
 using UnityEngine;
-
+using Satchel;
 namespace Doppelgänger
 {
     public class BaldurShell : MonoBehaviour
@@ -48,7 +47,6 @@ namespace Doppelgänger
             
             _shellAnim.layer = 11;
             
-            gameObject.PrintSceneHierarchyTree();
         }
 
         private void BaldurClose()

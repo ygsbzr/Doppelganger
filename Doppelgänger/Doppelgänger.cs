@@ -2,14 +2,13 @@
 using System.IO;
 using System.Reflection;
 using IL.HutongGames.PlayMaker.Actions;
-using ModCommon;
 using Modding;
 using UnityEngine;
 using UObject = UnityEngine.Object;
 
 namespace Doppelgänger
 {
-    public class Doppelgänger : Mod<SaveSettings>, ITogglableMod
+    public class Doppelgänger : Mod ,ITogglableMod
     {
         public static Doppelgänger Instance { get; private set; }
         
@@ -44,18 +43,13 @@ namespace Doppelgänger
 
             Unload();
 
-            ModHooks.Instance.AfterSavegameLoadHook += AfterSaveGameLoad;
-            ModHooks.Instance.NewGameHook += AddComponent;
-            ModHooks.Instance.LanguageGetHook += LangGet;
+            ModHooks.AfterSavegameLoadHook += AfterSaveGameLoad;
+            ModHooks.NewGameHook += AddComponent;
+            ModHooks.LanguageGetHook += LangGet;
             
             Log("Initialized.");
         }
 
-        private void LoadAssets()
-        {
-            AssetBundle doppelgangerAssetBundle = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "doppelganger"));
-            Audio.Add("DoppelgangerMusic", doppelgangerAssetBundle.LoadAsset<AudioClip>("DoppelgangerMusic"));
-        }
 
         private void LoadResources()
         {
@@ -80,9 +74,9 @@ namespace Doppelgänger
         
         public void Unload()
         {
-            ModHooks.Instance.AfterSavegameLoadHook -= AfterSaveGameLoad;
-            ModHooks.Instance.NewGameHook -= AddComponent;
-            ModHooks.Instance.LanguageGetHook -= LangGet;
+            ModHooks.AfterSavegameLoadHook -= AfterSaveGameLoad;
+            ModHooks.NewGameHook -= AddComponent;
+            ModHooks.LanguageGetHook -= LangGet;
             
             // ReSharper disable once Unity.NoNullPropogation
             var finder = GameManager.instance?.gameObject.GetComponent<ArenaFinder>();
@@ -97,14 +91,14 @@ namespace Doppelgänger
             GameManager.instance.gameObject.AddComponent<ArenaFinder>();
         }
 
-        private string LangGet(string key, string sheetTitle)
+        private string LangGet(string key, string sheetTitle,string orig)
         {
             switch (key)
             {
                 case "KNIGHT_NAME": return "The Knight";
                 case "KNIGHT_DESC": return "All-powerful god of soul and shade.";
                 case "KNIGHT_DREAM_1": return "...";
-                default: return Language.Language.GetInternal(key, sheetTitle);
+                default: return orig;
             }
         }
     }

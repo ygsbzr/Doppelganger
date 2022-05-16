@@ -1,5 +1,4 @@
 ﻿using HutongGames.PlayMaker.Actions;
-using ModCommon.Util;
 using UnityEngine;
 
 // Taken and modified from https://github.com/SalehAce1/PaleChampion/blob/master/PaleChampion/PaleChampion/TinkSound.cs

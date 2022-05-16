@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
-using ModCommon;
 using UnityEngine;
-
+using Satchel;
 namespace Doppelgänger
 {
     public class DungFluke : MonoBehaviour
